@@ -1,5 +1,5 @@
 {
-    "editor.tabSize": 8,
     "editor.fontSize": 16,
-    "prettier.tabWidth": 2
+    "prettier.tabWidth": 2,
+    "editor.detectIndentation": false
 }
