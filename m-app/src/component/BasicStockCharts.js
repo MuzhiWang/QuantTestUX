@@ -1,10 +1,19 @@
 import React from 'react';
-import CanvasJSReact from '../lib/canvasjs.react'
-import Select from 'react-select'
-import {DateType} from '../common/Enums'
+import CanvasJSReact from '../lib/canvasjs.react';
+import Select from 'react-select';
+import {DateType} from '../common/Enums';
+import Popup from 'react-popup';
+import './BasicStockCharts.css';
+
 
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+var intervalConfig = {
+    '1min': 1200,
+    '5min': 240,
+    'day': 5
+}
 
 class BasicStockCharts extends React.Component {
     constructor(props) {
@@ -68,24 +77,6 @@ class BasicStockCharts extends React.Component {
             },
             // data: data  // random data
         }
-
-        this.options2  = {
-			theme: "light2", // "light1", "light2", "dark1", "dark2"
-			animationEnabled: true,
-            exportEnabled: true,
-            zoomEnabled: true,
-			title:{
-				text: `${this.state.stockId} Stock Price`
-			},
-			axisX: {
-                interval: 3600,
-			},
-			axisY: {
-				includeZero:false,
-				prefix: "￥",
-				title: "Price (in RMB)"
-			}
-        }
         
         this.dateTypeOptions = [
             { value: DateType.ONE_MIN, label: '1 min', color: '#00B8D9', isFixed: true },
@@ -106,6 +97,23 @@ class BasicStockCharts extends React.Component {
     }
 
     getStock = () => {
+        let options2  = {
+			theme: "light1", // "light1", "light2", "dark1", "dark2"
+			animationEnabled: true,
+            exportEnabled: true,
+            zoomEnabled: true,
+			title:{
+				text: `${this.state.stockId} Stock Price`
+			},
+			axisX: {
+                interval: intervalConfig[this.state.dateType],
+			},
+			axisY: {
+				includeZero:false,
+				prefix: "￥",
+				title: "Price (in RMB)"
+			}
+        }
         var dataSeries = { 
             type: "candlestick",
             showInLegend: true,
@@ -115,15 +123,13 @@ class BasicStockCharts extends React.Component {
          };
         let dataPoints = [];
         dataSeries.dataPoints = dataPoints;
-        // const request = async () => { 
-        fetch(`http://127.0.0.1:5000/get_stock_df?stock_id=${this.state.stockId}&&start_date=${this.state.startDate}&&end_date=${this.state.endDate}`)
+        fetch(`http://127.0.0.1:5000/get_stock_df?stock_id=${this.state.stockId}&&start_date=${this.state.startDate}&&end_date=${this.state.endDate}&&date_type=${this.state.dateType}`)
         .then(res => res.json())
         .then(res => {
             console.log("log res: \n\n\n");
             console.log(res);
             var stockData = [];
             let stockDataPoints = [];
-            // console.log(res["date"])
             let stockCount = Object.keys(res["date"]).length;
             let date = res["date"];
             let open = res["open"];
@@ -140,9 +146,9 @@ class BasicStockCharts extends React.Component {
             }
             dataSeries.dataPoints = stockDataPoints;
             stockData.push(dataSeries);
-            this.options2.data = stockData;
+            options2.data = stockData;
 
-            return this.options2;
+            return options2;
         })
         .then(options => {
             this.setState({
@@ -150,6 +156,16 @@ class BasicStockCharts extends React.Component {
             });
             console.log("here it is")
             console.log(this.state);
+        })
+        .catch(err => {
+            Popup.create({
+                title: 'Request failed',
+                content: `Please retry to connect to the server. \n\n Error msg: ${err}`,
+                className: 'alert',
+                buttons: {
+                    right: ['ok']
+                }
+            }, true);    
         });
     }
 
@@ -195,6 +211,11 @@ class BasicStockCharts extends React.Component {
                     onChange={this.changeStartDate.bind(this)} />
                     <input type="text" name="endDate" value={this.state.endDate} 
                     onChange={this.changeEndDate.bind(this)} />
+                    <Popup 
+                        className="mm-popup"
+                        btnClass="mm-popup__btn"
+                        closeBtn={true}
+                        defaultOk="Ok" />
               </div>
           );
     }
