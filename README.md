@@ -9,6 +9,9 @@ install Node.js
 ```
 Go to project: npm install
 npm install --save react-canvas-js
+npm install --save react-select
+npm install --save react-popup
+npm install --save react-bootstrap bootstrap
 // npm install --save react-stockcharts
 ```
 

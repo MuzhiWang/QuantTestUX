@@ -1,9 +1,11 @@
 import React from 'react';
 import CanvasJSReact from '../lib/canvasjs.react';
 import Select from 'react-select';
-import {DateType} from '../common/Enums';
+import {DateType, StockType} from '../common/Enums';
 import Popup from 'react-popup';
 import './BasicStockCharts.css';
+// import 'bootstrap/dist/css/bootstrap.min.css'
+import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
 
 
 var CanvasJS = CanvasJSReact.CanvasJS;
@@ -63,7 +65,8 @@ class BasicStockCharts extends React.Component {
             stockId: "000001",
             startDate: "2019-07-25",
             endDate: "2019-11-10",
-            dateType: DateType.ONE_MIN
+            dateType: DateType.ONE_MIN,
+            stockType: StockType.STOCK,
         };
 
         this.options = {
@@ -84,12 +87,24 @@ class BasicStockCharts extends React.Component {
             { value: DateType.ONE_DAY, label: '1 day', color: '#5243AA', isFixed: true },
         ];
 
-        this.selectedOption = selectedOption => {
+        this.stockTypeOptions = [
+            { value: StockType.STOCK, label: 'stock', color: '#00B8D9', isFixed: true },
+            { value: StockType.INDEX, label: 'index', color: '#0052CC', isFixed: true },
+        ]
+
+        this.selectedDateTypeOption = selectedOption => {
             this.setState({
                 dateType: selectedOption.value
             });
-            console.log(`date type: ${this.state.dateType}`)
+            // console.log(`date type: ${this.state.dateType}`)
         };
+
+        this.selectedStockTypeOption = selectedOption => {
+            this.setState({
+                stockType: selectedOption.value
+            })
+            // console.log(`stock type: ${this.state.stockType}`)
+        }
     }
 
     componentDidMount() {
@@ -103,7 +118,7 @@ class BasicStockCharts extends React.Component {
             exportEnabled: true,
             zoomEnabled: true,
 			title:{
-				text: `${this.state.stockId} Stock Price`
+				text: `${this.state.stockId} ${this.state.stockType} price`
 			},
 			axisX: {
                 interval: intervalConfig[this.state.dateType],
@@ -123,7 +138,11 @@ class BasicStockCharts extends React.Component {
          };
         let dataPoints = [];
         dataSeries.dataPoints = dataPoints;
-        fetch(`http://127.0.0.1:5000/get_stock_df?stock_id=${this.state.stockId}&&start_date=${this.state.startDate}&&end_date=${this.state.endDate}&&date_type=${this.state.dateType}`)
+        let url = `http://127.0.0.1:5000/get_stock_df?stock_id=${this.state.stockId}&&start_date=${this.state.startDate}&&end_date=${this.state.endDate}&&date_type=${this.state.dateType}`
+        if (this.state.stockType == StockType.INDEX) {
+            url += '&&index=True'
+        }
+        fetch(url)
         .then(res => res.json())
         .then(res => {
             console.log("log res: \n\n\n");
@@ -192,25 +211,41 @@ class BasicStockCharts extends React.Component {
     render() {
         return (
               <div>
-                    <Select
-                        defaultValue={this.dateTypeOptions[0]}
-                        options={this.dateTypeOptions}
-                        // options={groupedOptions}
-                        // formatGroupLabel={formatGroupLabel}
-                        onChange={this.selectedOption}
-                    />
                     {this.state.options != undefined &&
                     <CanvasJSChart options = {this.state.options}/>}
-                    <button
-                        type="button"
-                        onClick={this.getStock}
-                        >Get stock</button>
-                    <input type="text" name="stockId" value={this.state.stockId} 
-                    onChange={this.changeStockId.bind(this)} />
-                    <input type="text" name="startDate" value={this.state.startDate} 
-                    onChange={this.changeStartDate.bind(this)} />
-                    <input type="text" name="endDate" value={this.state.endDate} 
-                    onChange={this.changeEndDate.bind(this)} />
+                    <div style={{display: 'inline-block'}}>
+                        <Button
+                            variant="success"
+                            onClick={this.getStock}>
+                                Get Stock
+                        </Button>
+                        <Select
+                            defaultValue={this.dateTypeOptions[0]}
+                            options={this.dateTypeOptions}
+                            // options={groupedOptions}
+                            // formatGroupLabel={formatGroupLabel}
+                            onChange={this.selectedDateTypeOption}
+                        />
+                        <Select
+                            defaultValue={this.stockTypeOptions[0]}
+                            options={this.stockTypeOptions}
+                            // options={groupedOptions}
+                            // formatGroupLabel={formatGroupLabel}
+                            onChange={this.selectedStockTypeOption}
+                        />
+                        {/* <DropdownButton
+                            title={this.state.dateType}>
+                            <Dropdown.Item eventKey="1" onClick={this.selectedOption}>1 min</Dropdown.Item>
+                            <Dropdown.Item eventKey="2" onClick={this.selectedOption}>5 min</Dropdown.Item>
+                            <Dropdown.Item eventKey="3" onClick={this.selectedOption}>1 day</Dropdown.Item>
+                        </DropdownButton> */}
+                        <input type="text" name="stockId" value={this.state.stockId} 
+                        onChange={this.changeStockId.bind(this)} />
+                        <input type="text" name="startDate" value={this.state.startDate} 
+                        onChange={this.changeStartDate.bind(this)} />
+                        <input type="text" name="endDate" value={this.state.endDate} 
+                        onChange={this.changeEndDate.bind(this)} />
+                    </div>
                     <Popup 
                         className="mm-popup"
                         btnClass="mm-popup__btn"

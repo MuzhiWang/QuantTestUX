@@ -4,3 +4,8 @@ export const DateType = {
     FIVE_MIN: "5min",
     ONE_DAY: "day"
 }
+
+export const StockType = {
+    STOCK: 'stock',
+    INDEX: 'index'
+}
