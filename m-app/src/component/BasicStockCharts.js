@@ -63,10 +63,10 @@ class BasicStockCharts extends React.Component {
         this.state = {
             options: {},
             stockId: "000001",
-            startDate: "2019-07-25",
+            startDate: "2018-07-25",
             endDate: "2019-11-10",
-            dateType: DateType.ONE_MIN,
-            stockType: StockType.STOCK,
+            dateType: DateType.ONE_DAY,
+            stockType: StockType.INDEX,
         };
 
         this.options = {
@@ -220,14 +220,14 @@ class BasicStockCharts extends React.Component {
                                 Get Stock
                         </Button>
                         <Select
-                            defaultValue={this.dateTypeOptions[0]}
+                            defaultValue={this.dateTypeOptions[2]}
                             options={this.dateTypeOptions}
                             // options={groupedOptions}
                             // formatGroupLabel={formatGroupLabel}
                             onChange={this.selectedDateTypeOption}
                         />
                         <Select
-                            defaultValue={this.stockTypeOptions[0]}
+                            defaultValue={this.stockTypeOptions[1]}
                             options={this.stockTypeOptions}
                             // options={groupedOptions}
                             // formatGroupLabel={formatGroupLabel}
