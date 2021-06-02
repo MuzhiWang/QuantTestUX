@@ -3,15 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import BasicStockCharts from './component/BasicStockCharts'
 import TDXTestStockCharts from './component/TDXTestStockCharts'
-import VNPYStockCharts from './component/vnpy/vnpyStockCharts';
+import StockCharts from './component/vnpy/stockCharts';
+
 import 'bootstrap/dist/css/bootstrap.min.css'
+import BackTesterCharts from './component/vnpy/backtesterCharts';
 
 function App() {
     return (
         <div className="App">
             {/* <BasicStockCharts /> */}
-            <TDXTestStockCharts />
-            <VNPYStockCharts />
+            {/* <TDXTestStockCharts />
+            <StockCharts /> */}
+            <BackTesterCharts />
         </div>
     );
 }
