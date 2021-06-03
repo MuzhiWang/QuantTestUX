@@ -64,8 +64,6 @@ class BackTesterCharts extends React.Component {
     getStock = () => {
         var historyDataArr = []
         var volumeDataArr = []
-        var tradesDataArr = []
-        var tradesFlagArr = []
         var tradesShortArr = []
         var tradesLongArr = []
         let options2 = {
@@ -148,11 +146,6 @@ class BackTesterCharts extends React.Component {
                 for (let i = 0; i < tradesDataRes.length; ++i) {
                     let curTrade = tradesDataRes[i]
                     let curDateTime = curTrade["ts"] * 1000
-                    tradesDataArr.push(
-                        [curDateTime, curTrade["price"]]
-                    )
-                    console.log(curTrade["dir"])
-                    console.log(typeof curTrade["dir"])
                     if (curTrade["dir"] === "SHORT") {
                         tradesShortArr.push(
                             {
@@ -168,12 +161,6 @@ class BackTesterCharts extends React.Component {
                             }
                         )
                     }
-                    tradesFlagArr.push(
-                        {
-                            x: curDateTime,
-                            title: "On series"
-                        }
-                    )
                 }
                 options2.series.push(
                     {
@@ -184,14 +171,6 @@ class BackTesterCharts extends React.Component {
                         showInNavigator: true
                     }
                 )
-                // options2.series.push(
-                //     {
-                //         id: 'trades',
-                //         name: 'trades',
-                //         data: tradesDataArr,
-                //         type: "spline"
-                //     }
-                // )
                 options2.series.push(
                     {
                         type: 'flags',
