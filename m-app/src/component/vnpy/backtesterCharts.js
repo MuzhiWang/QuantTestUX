@@ -5,6 +5,7 @@ import Popup from 'react-popup';
 import { Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+require("highcharts/indicators/indicators-all")(Highcharts)
 
 var intervalConfig = {
     '1min': 360,
@@ -68,57 +69,38 @@ class BackTesterCharts extends React.Component {
             title: {
                 text: 'My stock chart'
             },
+            chart: {
+                height: 900
+            },
             series: [],
             plotOptions: {
                 series: {
-                    // general options for all series
+                    showInLegend: true
                 },
                 candlestick: {
                     // shared options for all candlestick series
                 }
             },
+            legend: {
+                enabled: true
+            },
             // rangeSelector: {
             //     selected: 1
             // },
             yAxis: [{
-                labels: {
-                    align: 'right',
-                    x: -3
-                },
-                title: {
-                    text: 'OHLC'
-                },
-                height: '60%',
-                lineWidth: 2,
-                resize: {
-                    enabled: true
-                }
+                height: '60%'
             }, {
-                labels: {
-                    align: 'right',
-                    x: -3
-                },
-                title: {
-                    text: 'Volume'
-                },
-                top: '65%',
-                height: '35%',
-                offset: 0,
-                lineWidth: 2
+                top: '60%',
+                height: '20%'
+            }, {
+                top: '80%',
+                height: '20%'
             }],
 
             tooltip: {
                 split: true
             },
         }
-        // set the allowed units for data grouping
-        let groupingUnits = [[
-            'week',             // unit name
-            [1]               // allowed multiples
-        ], [
-            'month',
-            [1, 2, 3, 4, 6]
-        ]]
 
         let url = `http://localhost:9082/backtester`
         fetch(url, {
@@ -149,21 +131,49 @@ class BackTesterCharts extends React.Component {
                 }
                 options2.series.push(
                     {
+                        id: 'history',
+                        name: 'History',
                         data: historyDataArr,
-                        type: "candlestick",
-                        // dataGrouping: {
-                        //     units: groupingUnits
-                        // }
+                        type: "candlestick"
                     }
                 )
                 options2.series.push(
                     {
+                        id: "volume",
                         data: volumeDataArr,
                         type: "column",
                         name: "Volumn",
-                        // dataGrouping: {
-                        //     units: groupingUnits
-                        // }
+                        yAxis: 1
+                    }
+                )
+                options2.series.push(
+                    {
+                        type: 'sma',
+                        id: 'overlay',
+                        linkedTo: 'history',
+                        yAxis: 0,
+                        params: {
+                            period: 600
+                        }
+                    }
+                )
+                options2.series.push(
+                    {
+                        type: 'sma',
+                        id: 'overlay2',
+                        linkedTo: 'history',
+                        yAxis: 0,
+                        params: {
+                            period: 1200
+                        }
+                    }
+                )
+                options2.series.push(
+                    {
+                        type: 'macd',
+                        id: 'oscillator',
+                        linkedTo: 'history',
+                        yAxis: 2
                     }
                 )
 
