@@ -65,12 +65,22 @@ class BackTesterCharts extends React.Component {
         var historyDataArr = []
         var volumeDataArr = []
         var tradesDataArr = []
+        var tradesFlagArr = []
+        var tradesShortArr = []
+        var tradesLongArr = []
         let options2 = {
             title: {
                 text: 'My stock chart'
             },
             chart: {
-                height: 900
+                height: 900,
+                zoomBySingleTouch: true,
+                zoomType: 'x',
+                // backgroundColor: "#B7C3C1",
+                // borderColor: '#EBBA95',
+                plotBackgroundColor: "#B7C3C1",
+                // plotBorderColor: '#346691',
+                plotBorderWidth: 2
             },
             series: [],
             plotOptions: {
@@ -85,16 +95,22 @@ class BackTesterCharts extends React.Component {
                 enabled: true
             },
             // rangeSelector: {
-            //     selected: 1
+            //     selected: 2
             // },
             yAxis: [{
-                height: '60%'
+                height: '60%',
+                opposite: false,
+                gridLineDashStyle: 'longdashdotdot'
             }, {
                 top: '60%',
-                height: '20%'
+                height: '20%',
+                opposite: false,
+                gridLineWidth: 0
             }, {
                 top: '80%',
-                height: '20%'
+                height: '20%',
+                opposite: false,
+                gridLineWidth: 0
             }],
 
             tooltip: {
@@ -129,12 +145,91 @@ class BackTesterCharts extends React.Component {
                         [curDateTime, curBarData["V"]]
                     )
                 }
+                for (let i = 0; i < tradesDataRes.length; ++i) {
+                    let curTrade = tradesDataRes[i]
+                    let curDateTime = curTrade["ts"] * 1000
+                    tradesDataArr.push(
+                        [curDateTime, curTrade["price"]]
+                    )
+                    console.log(curTrade["dir"])
+                    console.log(typeof curTrade["dir"])
+                    if (curTrade["dir"] === "SHORT") {
+                        tradesShortArr.push(
+                            {
+                                x: curDateTime,
+                                title: "Sell"
+                            }
+                        )
+                    } else if (curTrade["dir"] === "LONG") {
+                        tradesLongArr.push(
+                            {
+                                x: curDateTime,
+                                title: "Buy"
+                            }
+                        )
+                    }
+                    tradesFlagArr.push(
+                        {
+                            x: curDateTime,
+                            title: "On series"
+                        }
+                    )
+                }
                 options2.series.push(
                     {
                         id: 'history',
                         name: 'History',
                         data: historyDataArr,
-                        type: "candlestick"
+                        type: "candlestick",
+                        showInNavigator: true
+                    }
+                )
+                // options2.series.push(
+                //     {
+                //         id: 'trades',
+                //         name: 'trades',
+                //         data: tradesDataArr,
+                //         type: "spline"
+                //     }
+                // )
+                options2.series.push(
+                    {
+                        type: 'flags',
+                        name: 'Buy',
+                        data: tradesLongArr,
+                        onSeries: 'history',
+                        shape: 'squarepin',
+                        color: Highcharts.getOptions().colors[0], // same as onSeries
+                        fillColor: Highcharts.getOptions().colors[0],
+                        width: 16,
+                        style: { // text style
+                            color: 'white'
+                        },
+                        states: {
+                            hover: {
+                                fillColor: '#395C84' // darker
+                            }
+                        }
+                    }
+                )
+                options2.series.push(
+                    {
+                        type: 'flags',
+                        name: 'Sell',
+                        data: tradesShortArr,
+                        onSeries: 'history',
+                        shape: 'squarepin',
+                        color: Highcharts.getOptions().colors[1], // same as onSeries
+                        fillColor: Highcharts.getOptions().colors[1],
+                        width: 16,
+                        style: { // text style
+                            color: 'white'
+                        },
+                        states: {
+                            hover: {
+                                fillColor: '#395C84' // darker
+                            }
+                        }
                     }
                 )
                 options2.series.push(
@@ -173,7 +268,13 @@ class BackTesterCharts extends React.Component {
                         type: 'macd',
                         id: 'oscillator',
                         linkedTo: 'history',
-                        yAxis: 2
+                        yAxis: 2,
+                        params: {
+                            shortPeriod: 12,
+                            longPeriod: 26,
+                            signalPeriod: 9,
+                            period: 26
+                        }
                     }
                 )
 
