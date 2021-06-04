@@ -68,7 +68,7 @@ class BackTesterCharts extends React.Component {
         var tradesLongArr = []
         let options2 = {
             title: {
-                text: 'My stock chart'
+                text: 'My BTC-USD chart'
             },
             chart: {
                 height: 900,
@@ -76,7 +76,7 @@ class BackTesterCharts extends React.Component {
                 zoomType: 'x',
                 // backgroundColor: "#B7C3C1",
                 // borderColor: '#EBBA95',
-                plotBackgroundColor: "#B7C3C1",
+                // plotBackgroundColor: "#B7C3C1",
                 // plotBorderColor: '#346691',
                 plotBorderWidth: 2
             },
@@ -102,12 +102,12 @@ class BackTesterCharts extends React.Component {
             }, {
                 top: '60%',
                 height: '20%',
-                opposite: false,
+                // opposite: false,
                 gridLineWidth: 0
             }, {
                 top: '80%',
                 height: '20%',
-                opposite: false,
+                // opposite: false,
                 gridLineWidth: 0
             }],
 
@@ -223,9 +223,13 @@ class BackTesterCharts extends React.Component {
                 options2.series.push(
                     {
                         type: 'sma',
-                        id: 'overlay',
+                        id: 'sma1',
                         linkedTo: 'history',
                         yAxis: 0,
+                        marker: {
+                            lineWidth: 0,
+                            radius: 2
+                        },
                         params: {
                             period: 600
                         }
@@ -234,9 +238,13 @@ class BackTesterCharts extends React.Component {
                 options2.series.push(
                     {
                         type: 'sma',
-                        id: 'overlay2',
+                        id: 'sma2',
                         linkedTo: 'history',
                         yAxis: 0,
+                        marker: {
+                            lineWidth: 0,
+                            radius: 2
+                        },
                         params: {
                             period: 1200
                         }
