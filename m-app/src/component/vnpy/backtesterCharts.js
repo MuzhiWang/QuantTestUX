@@ -90,7 +90,7 @@ class BackTesterCharts extends React.Component {
                 }
             },
             legend: {
-                enabled: true
+                enabled: false
             },
             // rangeSelector: {
             //     selected: 2
