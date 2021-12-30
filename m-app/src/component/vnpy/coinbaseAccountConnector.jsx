@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { DateType, StockType } from '../../common/Enums';
 import Popup from 'react-popup';
 import { Button, DropdownButton, Dropdown, Form, InputGroup, FormControl } from 'react-bootstrap';
-
+import { AccountConnectURL } from '../../common/constants';
 
 class CoinbaseAccountConnector extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class CoinbaseAccountConnector extends React.Component {
     }
 
     connect = () => {
-        let url = `http://localhost:9082/account/connect`;
+        let url = AccountConnectURL;
         // console.log("====================");
         // console.log(this.state);
         let reqBody = {

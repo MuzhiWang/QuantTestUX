@@ -6,7 +6,7 @@ import Popup from 'react-popup';
 // import './BasicStockCharts.css';
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, DropdownButton, Dropdown } from 'react-bootstrap'
-
+import { MarketplaceStockDataURL } from '../../common/constants';
 
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -107,7 +107,7 @@ class StockCharts extends React.Component {
     }
 
     componentDidMount() {
-        this.getStock();
+        // this.getStock();
     }
 
     getStock = () => {
@@ -138,7 +138,7 @@ class StockCharts extends React.Component {
         let dataPoints = [];
         dataSeries.dataPoints = dataPoints;
         // let url = `http://127.0.0.1:9082/get_stock_df?stock_id=${this.state.stockId}&&start_date=${this.state.startDate}&&end_date=${this.state.endDate}&&date_type=${this.state.dateType}`
-        let url = `http://localhost:9082/marketplace/stock_data`
+        let url = MarketplaceStockDataURL;
         let reqBody = {
             "symbol": "BTC-USD",
             "interval": "1m",

@@ -5,6 +5,8 @@ import BasicStockCharts from './component/BasicStockCharts'
 import TDXTestStockCharts from './component/TDXTestStockCharts'
 import StockCharts from './component/vnpy/stockCharts';
 import CoinbaseAccountConnector from './component/vnpy/coinbaseAccountConnector';
+import MarketplaceDataDownload from './component/vnpy/marketplaceDataDownload';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import BackTesterCharts from './component/vnpy/backtesterCharts';
@@ -16,6 +18,7 @@ function App() {
             {/* <TDXTestStockCharts />
             <StockCharts /> */}
             <CoinbaseAccountConnector />
+            <MarketplaceDataDownload />
             <BackTesterCharts />
         </div>
     );
