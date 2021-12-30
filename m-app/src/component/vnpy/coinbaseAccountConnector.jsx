@@ -23,8 +23,8 @@ class CoinbaseAccountConnector extends React.Component {
 
     connect = () => {
         let url = `http://localhost:9082/account/connect`;
-        console.log("====================");
-        console.log(this.state);
+        // console.log("====================");
+        // console.log(this.state);
         let reqBody = {
             "id": this.state.id,
             "secret": this.state.serect,
@@ -66,21 +66,21 @@ class CoinbaseAccountConnector extends React.Component {
     render() {
         return (
             <div> 
-                    <InputGroup className="mb-3" controlId="formBasicID">
-                        <InputGroup.Text>ID</InputGroup.Text>
-                        <FormControl onChange={this.updateID} />
-                    </InputGroup>
-                    <InputGroup className="mb-3" controlId="formBasicSecret">
-                        <InputGroup.Text>Secret</InputGroup.Text>
-                        <FormControl onChange={this.updateSecret} />
-                    </InputGroup>
-                    <InputGroup className="mb-3" controlId="formBasicPassword">
-                        <InputGroup.Text>Password</InputGroup.Text>
-                        <FormControl onChange={this.updatePassword} />
-                    </InputGroup>
-                    <Button variant="primary" type="submit" onClick={this.connect}>
-                        Connect
-                    </Button>
+                <InputGroup className="mb-3" controlId="formBasicID">
+                    <InputGroup.Text>ID</InputGroup.Text>
+                    <FormControl onChange={this.updateID} />
+                </InputGroup>
+                <InputGroup className="mb-3" controlId="formBasicSecret">
+                    <InputGroup.Text>Secret</InputGroup.Text>
+                    <FormControl onChange={this.updateSecret} />
+                </InputGroup>
+                <InputGroup className="mb-3" controlId="formBasicPassword">
+                    <InputGroup.Text>Password</InputGroup.Text>
+                    <FormControl onChange={this.updatePassword} />
+                </InputGroup>
+                <Button variant="primary" type="submit" onClick={this.connect}>
+                    Connect
+                </Button>
             </div>
         )
     };

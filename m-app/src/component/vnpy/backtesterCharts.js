@@ -116,7 +116,7 @@ class BackTesterCharts extends React.Component {
             },
         }
 
-        let url = `http://localhost:9082/backtester`
+        let url = `http://localhost:9082/backtester/result`
         fetch(url, {
             method: 'GET',
             headers: {
