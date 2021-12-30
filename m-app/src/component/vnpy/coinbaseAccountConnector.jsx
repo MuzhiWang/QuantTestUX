@@ -30,7 +30,7 @@ class CoinbaseAccountConnector extends React.Component {
             "secret": this.state.serect,
             "server": "REAL",
             "passphrase": this.state.passphrase
-          };
+        };
         fetch(url, {
             method: "POST",
             body: JSON.stringify(reqBody),
@@ -79,7 +79,7 @@ class CoinbaseAccountConnector extends React.Component {
                     <FormControl onChange={this.updatePassword} />
                 </InputGroup>
                 <Button variant="primary" type="submit" onClick={this.connect}>
-                    Connect
+                    Connect Coinbase
                 </Button>
             </div>
         )

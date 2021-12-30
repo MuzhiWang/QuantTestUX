@@ -58,7 +58,7 @@ class BackTesterCharts extends React.Component {
     }
 
     componentDidMount() {
-        this.getStock();
+        // this.getStock();
     }
 
     getStock = () => {

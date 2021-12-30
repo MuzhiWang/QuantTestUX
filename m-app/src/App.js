@@ -10,6 +10,7 @@ import MarketplaceDataDownload from './component/vnpy/marketplaceDataDownload';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import BackTesterCharts from './component/vnpy/backtesterCharts';
+import RunBacktesting from './component/vnpy/runBacktesting';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
             <StockCharts /> */}
             <CoinbaseAccountConnector />
             <MarketplaceDataDownload />
+            <RunBacktesting />
             <BackTesterCharts />
         </div>
     );

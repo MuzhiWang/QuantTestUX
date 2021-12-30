@@ -2,21 +2,24 @@ import React from 'react';
 import Popup from 'react-popup';
 import { MarketplaceDownloadURL } from '../../common/constants';
 import { Button, DropdownButton, Dropdown, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { DateToTimestamp } from '../../utils/utils';
 
 const defaultSymbol = "BTC-USD";
 const defaultExchange = "COINBASE";
 const defaultInterval = "1m";
+const defaultStartDate = "2021-11-01"
+const defaultEndDate = "2021-12-01"
 
 class MarketplaceDataDownload extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            symbol: "BTC-USD",
-            exchange: "",
-            interval: "1m",
-            startDate: "",
-            endDate: "",
+            symbol: defaultSymbol,
+            exchange: defaultExchange,
+            interval: defaultInterval,
+            startTs: DateToTimestamp(defaultStartDate),
+            endTs: DateToTimestamp(defaultEndDate),
         }
     }
 
@@ -32,22 +35,22 @@ class MarketplaceDataDownload extends React.Component {
         this.state.interval = event.target.value;
     }
     updateStartTs = (event) => {
-        this.state.start_ts = event.target.value;
+        this.state.startTs = DateToTimestamp(event.target.value);
     }
     updateEndTs = (event) => {
-        this.state.end_ts = event.target.value;
+        this.state.endTs = DateToTimestamp(event.target.value);
     }
 
     download = () => {
         let url = MarketplaceDownloadURL;
         // console.log("====================");
-        // console.log(this.state);
+        console.log(this.state);
         let reqBody = {
             "symbol": this.state.symbol,
             "exchange": this.state.exchange,
             "interval": this.state.interval,
-            "start_ts": this.state.start_ts,
-            "end_ts": this.state.end_ts,
+            "start_ts": this.state.startTs,
+            "end_ts": this.state.endTs,
         };
 
         fetch(url, {
@@ -77,19 +80,26 @@ class MarketplaceDataDownload extends React.Component {
             <div>
                 <InputGroup className="mb-3" controlId="formBasicSymbol">
                     <InputGroup.Text>Symbol</InputGroup.Text>
-                    <FormControl onChange={this.updateSymbol} />
+                    <FormControl placeholder={defaultSymbol} onChange={this.updateSymbol} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicExchange" defaultValue={defaultSymbol}>
+                <InputGroup className="mb-3" controlId="formBasicExchange">
                     <InputGroup.Text>Exchange</InputGroup.Text>
-
-                    <FormControl onChange={this.updateExchange} />
+                    <FormControl placeholder={defaultExchange} onChange={this.updateExchange} />
                 </InputGroup>
                 <InputGroup className="mb-3" controlId="formBasicInterval">
                     <InputGroup.Text>Interval</InputGroup.Text>
-                    <FormControl onChange={this.updatePassword} />
+                    <FormControl placeholder={defaultInterval} onChange={this.updateInterval} />
                 </InputGroup>
-                <Button variant="primary" type="submit" onClick={this.connect}>
-                    Connect
+                <InputGroup className="mb-3" controlId="formBasicStartDate">
+                    <InputGroup.Text>Start Date</InputGroup.Text>
+                    <FormControl placeholder={defaultStartDate} onChange={this.updateStartTs} />
+                </InputGroup>
+                <InputGroup className="mb-3" controlId="formBasicEndDate">
+                    <InputGroup.Text>End Date</InputGroup.Text>
+                    <FormControl placeholder={defaultEndDate} onChange={this.updateEndTs} />
+                </InputGroup>
+                <Button variant="primary" type="submit" onClick={this.download}>
+                    下载数据
                 </Button>
             </div>
         );
