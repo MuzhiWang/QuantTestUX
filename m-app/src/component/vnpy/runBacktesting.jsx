@@ -176,11 +176,11 @@ class RunBacktesting extends React.Component {
                     <FormControl placeholder={defaultInverse}  onChange={this.updateInverse} />
                 </InputGroup>
                 <InputGroup className="mb-3" controlId="formBasicFastWindow">
-                    <InputGroup.Text>慢周期</InputGroup.Text>
+                    <InputGroup.Text>快周期</InputGroup.Text>
                     <FormControl placeholder={defaultSettings[fastWindow]}  onChange={this.updateFastWindow} />
                 </InputGroup>
                 <InputGroup className="mb-3" controlId="formBasicSlowWindow">
-                    <InputGroup.Text>快周期</InputGroup.Text>
+                    <InputGroup.Text>慢周期</InputGroup.Text>
                     <FormControl placeholder={defaultSettings[slowWindow]}  onChange={this.updateSlowWindow} />
                 </InputGroup>
                 <Button variant="primary" type="submit" onClick={this.runBacktesting}>
