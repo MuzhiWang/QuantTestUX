@@ -24,7 +24,7 @@ class CoinbaseAccountConnector extends React.Component {
     connect = () => {
         let url = AccountConnectURL;
         // console.log("====================");
-        // console.log(this.state);
+        console.log(this.state);
         let reqBody = {
             "id": this.state.id,
             "secret": this.state.serect,

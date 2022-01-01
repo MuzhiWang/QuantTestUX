@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { DateType, StockType } from '../../common/Enums';
 import Popup from 'react-popup';
-import { Button, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, DropdownButton, Dropdown, Table } from 'react-bootstrap';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 require("highcharts/indicators/indicators-all")(Highcharts)
@@ -29,6 +29,7 @@ class BackTesterCharts extends React.Component {
             endDate: "2019-11-10",
             dateType: DateType.ONE_DAY,
             stockType: StockType.INDEX,
+            statisticRes: {}
         };
 
         this.dateTypeOptions = [
@@ -130,8 +131,13 @@ class BackTesterCharts extends React.Component {
                 console.log("log res: \n\n\n");
                 console.log(res);
                 let stockCount = Object.keys(res["history_data"]).length;
-                let historyDataRes = res["history_data"]
-                let tradesDataRes = res["trades_data"]
+                let historyDataRes = res["history_data"];
+                let tradesDataRes = res["trades_data"];
+                let statisticRes = res["statistic_result"];
+
+                this.setState({
+                    statisticRes: statisticRes
+                })
 
                 for (let i = 0; i < stockCount; ++i) {
                     let curBarData = historyDataRes[i]
@@ -347,6 +353,25 @@ class BackTesterCharts extends React.Component {
                         onChange={this.changeStartDate.bind(this)} />
                     <input type="text" name="endDate" value={this.state.endDate}
                         onChange={this.changeEndDate.bind(this)} />
+                </div>
+                <div>
+                    <Table>
+                        <tbody>
+                            {
+                                this.state.statisticRes != undefined && Object.keys(this.state.statisticRes).map((key) => {
+                                    let val = this.state.statisticRes[key];
+                                    return <tr>
+                                        <th>
+                                            {key}
+                                        </th>
+                                        <th>
+                                            {val}
+                                        </th>
+                                    </tr>
+                                })
+                            }
+                        </tbody>
+                    </Table>
                 </div>
                 <Popup
                     className="mm-popup"
