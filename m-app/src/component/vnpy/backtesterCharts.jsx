@@ -30,37 +30,7 @@ class BackTesterCharts extends React.Component {
             dateType: DateType.ONE_DAY,
             stockType: StockType.INDEX,
             statisticRes: {},
-            balanceOptions: {
-                // title: {
-                //     text: "Balance"
-                // },
-                // chart: {
-                //     type: 'line',
-                //     height: 900,
-                // },
-                // series: [],
-                // plotOptions: {
-                //     line: {
-                //         dataLabels: {
-                //             enabled: true
-                //         },
-                //         enableMouseTracking: false
-                //     }
-                // },
-                // legend: {
-                //     enabled: false
-                // },
-                // xAxis: {}
-                // yAxis: [{
-                //     top: '60%',
-                //     height: '20%',
-                //     // opposite: false,
-                //     gridLineWidth: 0
-                // }],
-                // tooltip: {
-                //     split: true
-                // },
-            }
+            balanceOptions: {}
         };
 
         this.dateTypeOptions = [
@@ -192,22 +162,17 @@ class BackTesterCharts extends React.Component {
                 // Net P&L
                 for (let tsStr in dailyResObj.net_pnl) {
                     let pnl = dailyResObj.net_pnl[tsStr];
+                    let color = "red";
+                    if (pnl < 0) {
+                        color = "green"
+                    }
                     pnlDataArr.push(
-                        pnl
+                        {
+                            y: pnl,
+                            color: color
+                        }
                     );
-                    // if (pnl >= 0) {
-                    //     pnlPointArr.push(
-                    //         {
-                    //             color: "#123456"
-                    //         }
-                    //     );
-                    // } else {
-                    //     pnlPointArr.push(
-                    //         {
-                    //             color: "green"
-                    //         }
-                    //     );
-                    // }
+                    
                 }
                 let balanceOpts = {
                     title: {
@@ -226,7 +191,7 @@ class BackTesterCharts extends React.Component {
                             type: "column",
                             data: pnlDataArr,
                             onSeries: 'balance',
-                            yAxis: 1
+                            yAxis: 1,
                             // points: pnlPointArr
                         }
                     ],
@@ -432,6 +397,13 @@ class BackTesterCharts extends React.Component {
                         constructorType={'stockChart'}
                         options={this.state.options}
                     />}
+                <div>
+                    <HighchartsReact
+                        highcharts={Highcharts}
+                        constructorType={'chart'}
+                        options={this.state.balanceOptions}
+                    />
+                </div>
                 <div style={{ display: 'inline-block' }}>
                     <Button
                         variant="success"
@@ -483,13 +455,6 @@ class BackTesterCharts extends React.Component {
                             }
                         </tbody>
                     </Table>
-                </div>
-                <div>
-                    <HighchartsReact
-                        highcharts={Highcharts}
-                        constructorType={'chart'}
-                        options={this.state.balanceOptions}
-                    />
                 </div>
                 <Popup
                     className="mm-popup"
