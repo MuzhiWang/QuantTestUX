@@ -29,7 +29,38 @@ class BackTesterCharts extends React.Component {
             endDate: "2019-11-10",
             dateType: DateType.ONE_DAY,
             stockType: StockType.INDEX,
-            statisticRes: {}
+            statisticRes: {},
+            balanceOptions: {
+                // title: {
+                //     text: "Balance"
+                // },
+                // chart: {
+                //     type: 'line',
+                //     height: 900,
+                // },
+                // series: [],
+                // plotOptions: {
+                //     line: {
+                //         dataLabels: {
+                //             enabled: true
+                //         },
+                //         enableMouseTracking: false
+                //     }
+                // },
+                // legend: {
+                //     enabled: false
+                // },
+                // xAxis: {}
+                // yAxis: [{
+                //     top: '60%',
+                //     height: '20%',
+                //     // opposite: false,
+                //     gridLineWidth: 0
+                // }],
+                // tooltip: {
+                //     split: true
+                // },
+            }
         };
 
         this.dateTypeOptions = [
@@ -134,11 +165,91 @@ class BackTesterCharts extends React.Component {
                 let historyDataRes = res["history_data"];
                 let tradesDataRes = res["trades_data"];
                 let statisticRes = res["statistic_result"];
+                let dailyRes = res["daily_result"];
+                let dailyResObj = JSON.parse(dailyRes);
+                let dailyTsArr = [];
+                console.log(dailyResObj);
 
+                // Set statistic res
                 this.setState({
                     statisticRes: statisticRes
                 })
 
+                // Set balance chart
+                let balanceDataArr = [];
+                let pnlDataArr = [];
+                let pnlPointArr = [];
+                for (let tsStr in dailyResObj.balance) {
+                    let ts = parseInt(tsStr);
+                    balanceDataArr.push(
+                        dailyResObj.balance[tsStr]
+                    );
+                    dailyTsArr.push(new Date(ts).toDateString());
+                }
+                // console.log("balance data arr");
+                // console.log(balanceDataArr);
+                
+                // Net P&L
+                for (let tsStr in dailyResObj.net_pnl) {
+                    let pnl = dailyResObj.net_pnl[tsStr];
+                    pnlDataArr.push(
+                        pnl
+                    );
+                    // if (pnl >= 0) {
+                    //     pnlPointArr.push(
+                    //         {
+                    //             color: "#123456"
+                    //         }
+                    //     );
+                    // } else {
+                    //     pnlPointArr.push(
+                    //         {
+                    //             color: "green"
+                    //         }
+                    //     );
+                    // }
+                }
+                let balanceOpts = {
+                    title: {
+                        text: "账户净值"
+                    },
+                    xAxis: {
+                        categories: dailyTsArr
+                    },
+                    series: [
+                        {
+                            id: "balance",
+                            type: "line",
+                            data: balanceDataArr,
+                        },
+                        {
+                            type: "column",
+                            data: pnlDataArr,
+                            onSeries: 'balance',
+                            yAxis: 1
+                            // points: pnlPointArr
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            height: '60%',
+                            opposite: false,
+                            // gridLineDashStyle: 'longdashdotdot'
+                        }, {
+                            top: '65%',
+                            height: '40%',
+                            opposite: true,
+                            gridLineDashStyle: 'longdashdotdot'
+                        }
+                    ],
+                }
+                this.setState({
+                    balanceOptions: balanceOpts
+                });
+                console.log(this.state);
+
+
+                // Set main chart, buy/sell & history data
                 for (let i = 0; i < stockCount; ++i) {
                     let curBarData = historyDataRes[i]
                     let curDateTime = curBarData["ts"] * 1000
@@ -355,7 +466,7 @@ class BackTesterCharts extends React.Component {
                         onChange={this.changeEndDate.bind(this)} />
                 </div>
                 <div>
-                    <Table>
+                    <Table size='sm' bordered hover striped>
                         <tbody>
                             {
                                 this.state.statisticRes != undefined && Object.keys(this.state.statisticRes).map((key) => {
@@ -372,6 +483,13 @@ class BackTesterCharts extends React.Component {
                             }
                         </tbody>
                     </Table>
+                </div>
+                <div>
+                    <HighchartsReact
+                        highcharts={Highcharts}
+                        constructorType={'chart'}
+                        options={this.state.balanceOptions}
+                    />
                 </div>
                 <Popup
                     className="mm-popup"
