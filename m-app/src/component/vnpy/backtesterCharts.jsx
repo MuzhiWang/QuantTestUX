@@ -181,6 +181,16 @@ class BackTesterCharts extends React.Component {
                     xAxis: {
                         categories: dailyTsArr
                     },
+                    chart: {
+                        height: 600,
+                        zoomBySingleTouch: true,
+                        zoomType: 'x',
+                        // backgroundColor: "#B7C3C1",
+                        // borderColor: '#EBBA95',
+                        // plotBackgroundColor: "#B7C3C1",
+                        // plotBorderColor: '#346691',
+                        plotBorderWidth: 2
+                    },
                     series: [
                         {
                             id: "balance",
@@ -201,7 +211,7 @@ class BackTesterCharts extends React.Component {
                             opposite: false,
                             // gridLineDashStyle: 'longdashdotdot'
                         }, {
-                            top: '65%',
+                            top: '60%',
                             height: '40%',
                             opposite: true,
                             gridLineDashStyle: 'longdashdotdot'

@@ -1,0 +1,50 @@
+version: '1.1'
+
+services:
+  vnpy_muzhi:
+    build:
+      context: ../vnpy_muzhi
+      dockerfile: Dockerfile
+    image: 'vnpy_muzhi'
+    #network_mode: 'host'
+    restart: always
+    ports:
+      - "9082:9082"
+      #- "27017:27017"
+    expose:
+      - "9082"
+  web_ux:
+    build:
+      context: ./m-app
+      dockerfile: Dockerfile
+    image: 'quant_test_ux'
+    restart: always
+    depends_on:
+      - vnpy_muzhi
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+  zoo:
+    image: zookeeper
+    restart: always
+    hostname: zookeeper
+    volumes:
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
+    #ports:
+    #  - "2181:2181"
+    #environment:
+    #  ZOO_MY_ID: 1
+    #  ZOO_SERVERS: server.1=zoo:2888:3888;2181
+  kafka:
+    build: ../vnpy_muzhi/kafka
+    dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./kafka/config:/kafka/config
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zoo
+
