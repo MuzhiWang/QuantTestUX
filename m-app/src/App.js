@@ -11,6 +11,7 @@ import MarketplaceDataDownload from './component/vnpy/marketplaceDataDownload';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import BackTesterCharts from './component/vnpy/backtesterCharts';
 import RunBacktesting from './component/vnpy/runBacktesting';
+import EventLog from './component/vnpy/eventLog';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
             <MarketplaceDataDownload />
             <RunBacktesting />
             <BackTesterCharts />
+            <EventLog />
         </div>
     );
 }

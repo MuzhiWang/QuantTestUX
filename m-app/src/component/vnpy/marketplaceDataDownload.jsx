@@ -78,23 +78,23 @@ class MarketplaceDataDownload extends React.Component {
     render() {
         return (
             <div>
-                <InputGroup className="mb-3" controlId="formBasicSymbol">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Symbol</InputGroup.Text>
                     <FormControl placeholder={defaultSymbol} onChange={this.updateSymbol} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicExchange">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Exchange</InputGroup.Text>
                     <FormControl placeholder={defaultExchange} onChange={this.updateExchange} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicInterval">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Interval</InputGroup.Text>
                     <FormControl placeholder={defaultInterval} onChange={this.updateInterval} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicStartDate">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Start Date</InputGroup.Text>
                     <FormControl placeholder={defaultStartDate} onChange={this.updateStartTs} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicEndDate">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>End Date</InputGroup.Text>
                     <FormControl placeholder={defaultEndDate} onChange={this.updateEndTs} />
                 </InputGroup>

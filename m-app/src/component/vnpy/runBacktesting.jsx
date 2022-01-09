@@ -131,55 +131,55 @@ class RunBacktesting extends React.Component {
     render() {
         return (
             <div> 
-                <InputGroup className="mb-3" controlId="formBasicClassName">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>交易策略</InputGroup.Text>
                     <FormControl placeholder={defaultClassName}  onChange={this.updateClassName} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicSymbol">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>股票代码</InputGroup.Text>
                     <FormControl placeholder={defaultSymbol}  onChange={this.updateSymbol} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicExchange">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>交易所代码</InputGroup.Text>
                     <FormControl placeholder={defaultExchange}  onChange={this.updateExchange} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicStartDate">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>开始日期</InputGroup.Text>
                     <FormControl placeholder={defaultStartDate}  onChange={this.updateStartTs} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicEndDate">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>结束日期</InputGroup.Text>
                     <FormControl placeholder={defaultEndDate}  onChange={this.updateEndTs} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicRate">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>手续费率</InputGroup.Text>
                     <FormControl placeholder={defaultRate}  onChange={this.updateRate} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicSlippage">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>交易滑点</InputGroup.Text>
                     <FormControl placeholder={defaultSlippage}  onChange={this.updateSlippage} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicSize">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>合约乘数</InputGroup.Text>
                     <FormControl placeholder={defaultSize}  onChange={this.updateSize} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicPricetick">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>价格跳动</InputGroup.Text>
                     <FormControl placeholder={defaultPricetick}  onChange={this.updatePricetick} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicCapital">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>回测资金</InputGroup.Text>
                     <FormControl placeholder={defaultCapital}  onChange={this.updateCapital} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicInverse">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>合约模式</InputGroup.Text>
                     <FormControl placeholder={defaultInverse}  onChange={this.updateInverse} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicFastWindow">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>快周期</InputGroup.Text>
                     <FormControl placeholder={defaultSettings[fastWindow]}  onChange={this.updateFastWindow} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicSlowWindow">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>慢周期</InputGroup.Text>
                     <FormControl placeholder={defaultSettings[slowWindow]}  onChange={this.updateSlowWindow} />
                 </InputGroup>

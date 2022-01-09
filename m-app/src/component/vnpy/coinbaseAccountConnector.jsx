@@ -66,15 +66,15 @@ class CoinbaseAccountConnector extends React.Component {
     render() {
         return (
             <div> 
-                <InputGroup className="mb-3" controlId="formBasicID">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>ID</InputGroup.Text>
                     <FormControl onChange={this.updateID} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicSecret">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Secret</InputGroup.Text>
                     <FormControl onChange={this.updateSecret} />
                 </InputGroup>
-                <InputGroup className="mb-3" controlId="formBasicPassword">
+                <InputGroup className="mb-3">
                     <InputGroup.Text>Password</InputGroup.Text>
                     <FormControl onChange={this.updatePassword} />
                 </InputGroup>

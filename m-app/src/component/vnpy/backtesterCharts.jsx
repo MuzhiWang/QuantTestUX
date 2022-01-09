@@ -172,7 +172,6 @@ class BackTesterCharts extends React.Component {
                             color: color
                         }
                     );
-                    
                 }
                 let balanceOpts = {
                     title: {
