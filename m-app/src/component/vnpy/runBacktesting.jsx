@@ -173,7 +173,7 @@ class RunBacktesting extends React.Component {
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text>合约模式</InputGroup.Text>
-                    <FormControl placeholder={defaultInverse}  onChange={this.updateInverse} />
+                    <FormControl placeholder={defaultInverse.toString()}  onChange={this.updateInverse} />
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text>快周期</InputGroup.Text>
