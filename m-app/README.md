@@ -22,6 +22,11 @@ go to m-project
 npm start
 ```
 
+## run docker
+go to root directory 
+```
+docker-compose -f docker-compose.yml up --build --force-recreate
+```
 
 ## some tips:
 ```

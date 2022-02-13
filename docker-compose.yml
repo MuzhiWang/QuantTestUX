@@ -1,4 +1,8 @@
-version: '1.1'
+version: '3.3'
+
+networks: 
+  my_kafka:
+    name: my_kafka
 
 services:
   vnpy_muzhi:
@@ -6,11 +10,16 @@ services:
       context: ../vnpy_muzhi
       dockerfile: Dockerfile
     image: 'vnpy_muzhi'
-    #network_mode: 'host'
+    networks:
+      - my_kafka
+    depends_on:
+      - zookeeper
+      - broker
     restart: always
     ports:
       - "9082:9082"
-      #- "27017:27017"
+      #- "19092:19092"
+      - "27017:27017"
     expose:
       - "9082"
   web_ux:
@@ -21,30 +30,51 @@ services:
     restart: always
     depends_on:
       - vnpy_muzhi
+    networks:
+      - my_kafka
     ports:
       - "3000:3000"
     expose:
       - "3000"
-  zoo:
+  zookeeper:
     image: zookeeper
     restart: always
     hostname: zookeeper
+    container_name: zookeeper
     volumes:
       - ./zookeeper/data:/data
       - ./zookeeper/datalog:/datalog
-    #ports:
-    #  - "2181:2181"
-    #environment:
+    ports:
+      - "2181:2181"
+    expose:
+      - "2181"
+    networks:
+      - my_kafka
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
     #  ZOO_MY_ID: 1
     #  ZOO_SERVERS: server.1=zoo:2888:3888;2181
-  kafka:
+  broker:
     build: ../vnpy_muzhi/kafka
-    dockerfile: Dockerfile
+    #dockerfile: Dockerfile
+    container_name: broker
     restart: always
     volumes:
-      - ./kafka/config:/kafka/config
+      - ../vnpy_muzhi/kafka/config:/kafka/config
     ports:
-      - "9092:9092"
+      - "19092:19092"
+    expose:
+      - "19092"
     depends_on:
-      - zoo
+      - zookeeper
+    networks:
+      - my_kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,CONNECTIONS_FROM_HOST://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONNECTIONS_FROM_HOST:PLAINTEXTL_SSL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
 
