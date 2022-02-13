@@ -46,6 +46,9 @@ class EventLog extends React.Component {
             console.log("%%%%%%%%%%%%%%%%%%%%");
             console.log(event.data);
             eventLog.setState(function(prevs) {
+                prevs.eventList.sort(function(a, b) {
+                    return b.ts - a.ts;
+                });
                 while (prevs.eventList.length > this.eventQueueSize) {
                     prevs.eventList.shift();
                 }

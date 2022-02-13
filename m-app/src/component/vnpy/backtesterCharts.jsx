@@ -377,26 +377,6 @@ class BackTesterCharts extends React.Component {
             });
     }
 
-    changeStockId(event) {
-        this.setState({ stockId: event.target.value });
-    }
-
-    changeStartDate(event) {
-        this.setState({ startDate: event.target.value });
-    }
-
-    changeEndDate(event) {
-        this.setState({ endDate: event.target.value });
-    }
-
-    changeDateType(selectedOption) {
-
-        console.log(`select option: ${selectedOption}`);
-        this.setState({
-            dateType: selectedOption.value
-        });
-    }
-
     render() {
         return (
             <div>
@@ -406,45 +386,12 @@ class BackTesterCharts extends React.Component {
                         constructorType={'stockChart'}
                         options={this.state.options}
                     />}
-                <div>
+                <div>{this.state.balanceOptions != undefined &&
                     <HighchartsReact
                         highcharts={Highcharts}
                         constructorType={'chart'}
                         options={this.state.balanceOptions}
-                    />
-                </div>
-                <div style={{ display: 'inline-block' }}>
-                    <Button
-                        variant="success"
-                        onClick={this.getStock}>
-                        Get Stock
-                    </Button>
-                    <Select
-                        defaultValue={this.dateTypeOptions[2]}
-                        options={this.dateTypeOptions}
-                        // options={groupedOptions}
-                        // formatGroupLabel={formatGroupLabel}
-                        onChange={this.selectedDateTypeOption}
-                    />
-                    <Select
-                        defaultValue={this.stockTypeOptions[1]}
-                        options={this.stockTypeOptions}
-                        // options={groupedOptions}
-                        // formatGroupLabel={formatGroupLabel}
-                        onChange={this.selectedStockTypeOption}
-                    />
-                    {/* <DropdownButton
-                            title={this.state.dateType}>
-                            <Dropdown.Item eventKey="1" onClick={this.selectedOption}>1 min</Dropdown.Item>
-                            <Dropdown.Item eventKey="2" onClick={this.selectedOption}>5 min</Dropdown.Item>
-                            <Dropdown.Item eventKey="3" onClick={this.selectedOption}>1 day</Dropdown.Item>
-                        </DropdownButton> */}
-                    <input type="text" name="stockId" value={this.state.stockId}
-                        onChange={this.changeStockId.bind(this)} />
-                    <input type="text" name="startDate" value={this.state.startDate}
-                        onChange={this.changeStartDate.bind(this)} />
-                    <input type="text" name="endDate" value={this.state.endDate}
-                        onChange={this.changeEndDate.bind(this)} />
+                    />}
                 </div>
                 <div>
                     <Table size='sm' bordered hover striped>
@@ -464,6 +411,13 @@ class BackTesterCharts extends React.Component {
                             }
                         </tbody>
                     </Table>
+                </div>
+                <div style={{ display: 'inline-block' }}>
+                    <Button
+                        variant="success"
+                        onClick={this.getStock}>
+                        Get Results
+                    </Button>
                 </div>
                 <Popup
                     className="mm-popup"
